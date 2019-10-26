@@ -1,0 +1,7 @@
+css: {bootstrap.css: '', index.css: ''}
+img: {}
+index.html: "<!DOCTYPE html> \n<html> \n<head> \n\t<title>Hey!</title> \n</head> \n\
+  <body> \n\t<p>Hey!</p> \n</body> \n</html>"
+js:
+  index.js: ''
+  vendor: {bootstrap.js: ''}
