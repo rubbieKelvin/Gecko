@@ -10,7 +10,7 @@ python geckoapp.py -h
 
 >create project from terminal instead of gui
 ```bash
-python geckoapp.py -c 
+python geckoapp.py -c
 ```
 
 ?show gui

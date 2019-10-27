@@ -15,7 +15,8 @@ def newfolder(root, name):
 	os.mkdir(os.path.join(root, name))
 
 def printhelp(args=[]):
-	print("this is Gecko's help system")
+	with open("README.md") as file:
+		print(file.read())
 
 def createtree(tree, root=""):
 	for name in tree.keys():
@@ -26,7 +27,20 @@ def createtree(tree, root=""):
 			newfile(root, name, tree[name])
 
 def createproject(args, defaults):
-	pass
+	"""
+		this part does the creation of the project folder and specific initialization
+		arguments==>
+			> root				default will be set on first startup
+			> projectname
+			> author			optional
+			> description		optional
+			> git?				create git repo?
+			> readme?			initialize readme?
+			> template			template to use, must be installed first
+			> LISENCE file		lisence file path
+	"""
+	args = processargs(args, default=defaults)
+
 
 def readgeckofile(filename):
 	with open(filename) as file:
@@ -42,18 +56,17 @@ def installgeckotemplate(args):
 	with open(args.get("json")) as file:
 		jsn = json.load(file)
 	with open(os.path.join(TEMPLATE_DIR, args.get("name")+EXTENSION), "w") as file:
-		yaml.dump(jsn, file)		
-
+		yaml.dump(jsn, file)
 
 def showgui(args, defaults={}):
 	eel.init("gecko\\web")
 	eel.start("index.html")
 
 class processargs(object):
-	def __init__(self, args):
+	def __init__(self, args, default={}):
 		# remove the first two items, usually current running file and command
 		args = args[2:]
-		self.result = {}
+		self.result = default
 		# turn argument to dictionary
 		# syntax "key=value"
 		for item in args:
@@ -73,3 +86,6 @@ class processargs(object):
 
 	def set(self, key, value=""):
 		self.result[key] = value
+
+	def feed(self, _dict:dict):
+		self.result.update(_dict)

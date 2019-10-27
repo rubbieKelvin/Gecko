@@ -6,13 +6,10 @@ class Gecko(object):
 	def __init__(self, options={"projectdir":"", "git":"0", "projectname":"", "description":"", "readme":"0", "template":"default"}):
 		super(Gecko, self).__init__()
 		self.options = options
-		
+
 	def exec(self, args=[]):
 		if len(args) > 1:
 			if args[1].strip() == "-h":
-				utils.printhelp(args)
-
-			elif args[1].strip() == "help":
 				utils.printhelp(args)
 
 			elif args[1].strip() == "-c":
@@ -23,7 +20,6 @@ class Gecko(object):
 
 			elif args[1].strip() == "-i":
 				utils.installgeckotemplate(args)
-			
 
 			else:
 				print(f"'{args[1]}' is not a valid command")
