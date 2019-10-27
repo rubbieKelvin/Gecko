@@ -1,5 +1,6 @@
 from . import utils
 from socket import gethostname
+import os
 
 class Gecko(object):
 	"""docstring for Gecko"""
@@ -30,7 +31,7 @@ class Gecko(object):
 				print(f"'{args[1]}' is not a valid command")
 
 	def ensureconfig(self):
-		# if not self.configured:
+		if not self.configured():
 			# collect project root
 			root = utils.require(prompt="Project root folder")
 			git = utils.require(prompt="Git.exe folder", default="", optional=True)
@@ -40,7 +41,7 @@ class Gecko(object):
 			print(f'you choose {git}')
 			print(f'you choose {author}')
 
-	def configured():
+	def configured(self):
 		# checks if gecko is configured
 		if os.access("gecko.config", os.F_OK):
 			with open("gecko.config") as file:
