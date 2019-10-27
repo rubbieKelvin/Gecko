@@ -1,24 +1,31 @@
 # Gecko
+
 ## project creation automator
+automate the process of creating project file structure and also the boring CLI commands
 
-###	shell commands
-
->show help
+## installation
+install with pypi
 ```bash
-python geckoapp.py -h
+pip install autogecko
+```
+or just clone from the git url
+
+### show help
+```bash
+python autogecko.py -h
 ```
 
->create project from terminal instead of gui
+### create project from terminal instead of gui
 ```bash
-python geckoapp.py -c
+python autogecko.py -c
 ```
 
-?show gui
+### show gui, alternatively run without argument
 ```bash
-python geckoapp.py gui
+python autogecko.py gui
 ```
 
->install a project template
+### install a project template
 make this json file, test.json
 ```json
 {
@@ -39,7 +46,15 @@ make this json file, test.json
 
 then run
 ```bash
-python geckoapp.py -i json=test.json name=test
+python autogecko.py -i json=test.json name=html5boilerplate
 ```
+the tree stucture would be stored in the gecko\templates folder as a gecko file. You can then run:
+```bash
+python autogecko.py -c projectname=Test template=html5boilerplate readme=1
+```
+you can now check the folder which you setup as root folder on the first run.
 
-the tree stucture would be stored in the gecko\templates folder as a gecko file
+### update configuration
+```bash
+python autogecko.py -config <key1=value1> <key2=value2> ... <key-n=value-n>
+```
