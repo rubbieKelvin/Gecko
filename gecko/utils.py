@@ -7,6 +7,7 @@ import subprocess
 
 TEMPLATE_DIR = "gecko\\templates"
 EXTENSION = ".gecko"
+from . import CONFIG
 
 def newfile(root, name, content=""):
 	with open(os.path.join(root, name), "w") as file:
@@ -45,7 +46,6 @@ def createproject(args, defaults):
 			> lisence			lisence file path
 	"""
 	args = processargs(args, default=defaults)
-	print(args)
 	if args.get("projectname") and args.get("template"):
 		# get template
 		temps = os.listdir(TEMPLATE_DIR)
@@ -70,10 +70,7 @@ def createproject(args, defaults):
 
 			# initialise readme
 			if int(args.get("readme")):
-				readme = """# {projectname}
-## {description}
-author: {author}
-				""".format(**args.tree)
+				readme = "# {projectname}\n## {description}\nauthor: {author}".format(**args.tree)
 				newfile(root=args.get("root"), name="README.md", content=readme)
 
 			# create git repo
@@ -169,3 +166,9 @@ def lookforgit():
 		return git
 	else:
 		return "0"
+
+def updateconfiguration(args):
+	args = processargs(args)
+	with open(CONFIG) as file: config = yaml.load(file)
+	config.update(args.tree)
+	with open(CONFIG, "w") as file: yaml.dump(config, file)

@@ -50,7 +50,7 @@ python autogecko.py -i json=test.json name=html5boilerplate
 ```
 the tree stucture would be stored in the gecko\templates folder as a gecko file. You can then run:
 ```bash
-python autogecko.py -c projectname=Test template=html5boilerplate readme=1
+python autogecko.py -c projectname=Test template=html5boilerplate readme=1 "lisence=GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007"
 ```
 you can now check the folder which you setup as root folder on the first run.
 

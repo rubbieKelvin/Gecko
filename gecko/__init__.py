@@ -1,7 +1,7 @@
-from . import utils
 import os, json, yaml
 
 CONFIG = "geckoconfig.yml"
+from . import utils
 
 class Gecko(object):
 	"""docstring for Gecko"""
@@ -35,6 +35,10 @@ class Gecko(object):
 			elif args[1].strip() == "-i":
 				# installs a gecko file from json file
 				utils.installgeckotemplate(args)
+
+			elif args[1].strip() == "-config":
+				# update configuration
+				utils.updateconfiguration(args)
 
 			else:
 				print(f"'{args[1]}' is not a valid command")
