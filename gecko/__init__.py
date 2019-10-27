@@ -1,13 +1,18 @@
 from . import utils
-
+from socket import gethostname
 
 class Gecko(object):
 	"""docstring for Gecko"""
-	def __init__(self, options={"projectdir":"", "git":"0", "projectname":"", "description":"", "readme":"0", "template":"default"}):
+	def __init__(self, options={"root":"", "projectname":"", "author":"", "description":"", "git":"0", "readme":"0", "template":"", "lisence":""}):
 		super(Gecko, self).__init__()
 		self.options = options
 
-	def exec(self, args=[]):
+	def exec(self, *args, **kwargs):
+		if self.configured: self.exec_(*args, **kwargs)
+		else: print("Gecko is not configured.")
+
+
+	def exec_(self, args=[]):
 		if len(args) > 1:
 			if args[1].strip() == "-h":
 				utils.printhelp(args)
@@ -23,3 +28,23 @@ class Gecko(object):
 
 			else:
 				print(f"'{args[1]}' is not a valid command")
+
+	def ensureconfig(self):
+		# if not self.configured:
+			# collect project root
+			root = utils.require(prompt="Project root folder")
+			git = utils.require(prompt="Git.exe folder", default="", optional=True)
+			author = utils.require(prompt="Your Name", default=gethostname(), optional=True)
+
+			print(f'you choose {root}')
+			print(f'you choose {git}')
+			print(f'you choose {author}')
+
+	def configured():
+		# checks if gecko is configured
+		if os.access("gecko.config", os.F_OK):
+			with open("gecko.config") as file:
+				cont = file.read()
+			return cont.strip() != ""
+		else:
+			return False

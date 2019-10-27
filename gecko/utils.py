@@ -1,11 +1,17 @@
 import os
 import sys
-import eel
 import yaml
 import json
 
 TEMPLATE_DIR = "gecko\\templates"
 EXTENSION = ".gecko"
+GUI_AVAILABLE = True
+
+try:
+	import eel
+except ModuleNotFoundError:
+	print("install eel to use gui.\nrun: pip install eel")
+	GUI_AVAILABLE = False
 
 def newfile(root, name, content=""):
 	with open(os.path.join(root, name), "w") as file:
@@ -34,10 +40,10 @@ def createproject(args, defaults):
 			> projectname
 			> author			optional
 			> description		optional
-			> git?				create git repo?
-			> readme?			initialize readme?
+			> git				create git repo?
+			> readme			initialize readme?
 			> template			template to use, must be installed first
-			> LISENCE file		lisence file path
+			> lisence			lisence file path
 	"""
 	args = processargs(args, default=defaults)
 
@@ -59,8 +65,11 @@ def installgeckotemplate(args):
 		yaml.dump(jsn, file)
 
 def showgui(args, defaults={}):
-	eel.init("gecko\\web")
-	eel.start("index.html")
+	if GUI_AVAILABLE:
+		eel.init("gecko\\web")
+		eel.start("index.html")
+	else:
+		print("install eel to use gui.\nrun: pip install eel")
 
 class processargs(object):
 	def __init__(self, args, default={}):
@@ -89,3 +98,23 @@ class processargs(object):
 
 	def feed(self, _dict:dict):
 		self.result.update(_dict)
+
+
+def require(prompt="Enter a value", _type=str, optional=False, default=None):
+	prompt = prompt.strip().strip(":")
+	if default is not None:
+		prompt = "%s [%s]: " %(prompt, default)
+	else:
+		prompt = prompt+": "
+	while True:
+		response = input(prompt)
+		if response:
+			try:
+				response = _type(response)
+				break
+			except ValueError as e:
+				print("Enter a value with type", _type)
+		elif optional:
+			response = default
+			break
+	return response
