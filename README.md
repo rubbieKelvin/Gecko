@@ -3,22 +3,22 @@
 
 ###	shell commands
 
-####show help
+>show help
 ```bash
 python geckoapp.py -h
 ```
 
-####create project from terminal instead of gui
+>create project from terminal instead of gui
 ```bash
 python geckoapp.py -c 
 ```
 
-####show gui
+?show gui
 ```bash
 python geckoapp.py gui
 ```
 
-####install a project template
+>install a project template
 make this json file, test.json
 ```json
 {
