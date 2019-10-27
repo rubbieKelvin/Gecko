@@ -1,24 +1,23 @@
 import os
 import sys
+import eel
 import yaml
 import json
+import subprocess
 
 TEMPLATE_DIR = "gecko\\templates"
 EXTENSION = ".gecko"
-GUI_AVAILABLE = True
-
-try:
-	import eel
-except ModuleNotFoundError:
-	print("install eel to use gui.\nrun: pip install eel")
-	GUI_AVAILABLE = False
 
 def newfile(root, name, content=""):
 	with open(os.path.join(root, name), "w") as file:
 		file.write(content)
 
 def newfolder(root, name):
-	os.mkdir(os.path.join(root, name))
+	try:
+		os.mkdir(os.path.join(root, name))
+		return True
+	except FileExistsError:
+		return False
 
 def printhelp(args=[]):
 	with open("README.md") as file:
@@ -46,7 +45,46 @@ def createproject(args, defaults):
 			> lisence			lisence file path
 	"""
 	args = processargs(args, default=defaults)
+	print(args)
+	if args.get("projectname") and args.get("template"):
+		# get template
+		temps = os.listdir(TEMPLATE_DIR)
+		if args.get("template").lower()+EXTENSION in temps:
+			# open template
+			with open(os.path.join(TEMPLATE_DIR, args.get("template")+EXTENSION)) as file:
+				tree = yaml.load(file)
+			
+			# create project root
+			folder = args.get("projectname")
+			prevroot = args.get("root")
+			if not newfolder(prevroot, folder):
+				print("Project already exists")
+				return None
+			newroot = os.path.join(prevroot, folder)
 
+			# reassign root
+			args.set("root", newroot)
+
+			# create tree
+			createtree(tree=tree, root=args.get("root"))
+
+			# initialise readme
+			if int(args.get("readme")):
+				readme = """# {projectname}
+## {description}
+author: {author}
+				""".format(**args.tree)
+				newfile(root=args.get("root"), name="README.md", content=readme)
+
+			# create git repo
+			if args.get("git") != "0":
+				newfolder(root=args.get("root"), name=".git")
+				subprocess.call(["attrib", "+H", os.path.join(args.get("root"), ".git")])
+				subprocess.run('{git} --git-dir="{gitdir}" --work-tree="{dir}" init'.format(git=args.get("git"), gitdir=os.path.join(args.get("root"), ".git"), dir=args.get("root")))
+		else:
+			print(f"{args.get('template')} is not installed")
+	else:
+		print("include %projectname and %template arguments")
 
 def readgeckofile(filename):
 	with open(filename) as file:
@@ -65,11 +103,8 @@ def installgeckotemplate(args):
 		yaml.dump(jsn, file)
 
 def showgui(args, defaults={}):
-	if GUI_AVAILABLE:
-		eel.init("gecko\\web")
-		eel.start("index.html")
-	else:
-		print("install eel to use gui.\nrun: pip install eel")
+	eel.init("gecko\\web")
+	eel.start("index.html")
 
 class processargs(object):
 	def __init__(self, args, default={}):
@@ -87,11 +122,18 @@ class processargs(object):
 			else:
 				raise KeyError("syntax: 'key=value'")
 
+	def __repr__(self):
+		return "<Args %r>" %self.result
+
 	def get(self, key):
 		if key in self.result:
 			return self.result[key]
 		else:
 			return ""
+
+	@property
+	def tree(self):
+		return self.result
 
 	def set(self, key, value=""):
 		self.result[key] = value
@@ -118,3 +160,12 @@ def require(prompt="Enter a value", _type=str, optional=False, default=None):
 			response = default
 			break
 	return response
+
+def lookforgit():
+	programfolder = os.environ["PROGRAMFILES"]
+	git = "Git\\cmd\\git.exe"
+	git = os.path.join(programfolder, git)
+	if os.access(git, os.F_OK):
+		return git
+	else:
+		return "0"
