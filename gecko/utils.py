@@ -32,7 +32,22 @@ def createtree(tree, root=""):
 		elif type(tree[name]) is str:
 			newfile(root, name, tree[name])
 
-def createproject(args, defaults):
+def query(args, defaults):
+	args = processargs(args, default=defaults)
+
+	root = require(prompt="root folder", default=args.get("root"))
+	name = require(prompt="project name")
+	temp = require(prompt="template name")
+	author = require(prompt="author", default=args.get("author"))
+	descr = require(prompt="project description", optional=True, default="")
+	readme = require(prompt="use readme yes=>1, no=>0.", _type=int)
+	license = require(prompt="license file path", optional=True)
+
+	args.feed({"root":root, "projectname":name, "author":author, "description":descr, "readme":readme, "license":license, "template":temp})
+	createproject(["", ""], defaults=args.tree.copy(), ignorerequired=True)
+
+
+def createproject(args, defaults, ignorerequired=False):
 	"""
 		this part does the creation of the project folder and specific initialization
 		arguments==>
@@ -46,14 +61,14 @@ def createproject(args, defaults):
 			> lisence			lisence file path
 	"""
 	args = processargs(args, default=defaults)
-	if args.get("projectname") and args.get("template"):
+	if args.get("projectname") and args.get("template") or ignorerequired:
 		# get template
 		temps = os.listdir(TEMPLATE_DIR)
 		if args.get("template").lower()+EXTENSION in temps:
 			# open template
 			with open(os.path.join(TEMPLATE_DIR, args.get("template")+EXTENSION)) as file:
-				tree = yaml.load(file)
-			
+				tree = yaml.load(file, Loader=yaml.FullLoader)
+
 			# create project root
 			folder = args.get("projectname")
 			prevroot = args.get("root")
@@ -78,6 +93,8 @@ def createproject(args, defaults):
 				newfolder(root=args.get("root"), name=".git")
 				subprocess.call(["attrib", "+H", os.path.join(args.get("root"), ".git")])
 				subprocess.run('{git} --git-dir="{gitdir}" --work-tree="{dir}" init'.format(git=args.get("git"), gitdir=os.path.join(args.get("root"), ".git"), dir=args.get("root")))
+				# subprocess.run('git --git-dir="{gitdir}" add .'.format(gitdir=os.path.join(args.get("root"), ".git")))
+				# subprocess.run('git --git-dir="{gitdir}" commit -m "initial commit from gecko"'.format(gitdir=os.path.join(args.get("root"), ".git")))
 		else:
 			print(f"{args.get('template')} is not installed")
 	else:
@@ -85,7 +102,7 @@ def createproject(args, defaults):
 
 def readgeckofile(filename):
 	with open(filename) as file:
-		result = yaml.load(file)
+		result = yaml.load(file, Loader=yaml.FullLoader)
 	return result
 
 def installgeckotemplate(args):
@@ -140,20 +157,24 @@ class processargs(object):
 
 
 def require(prompt="Enter a value", _type=str, optional=False, default=None):
-	prompt = prompt.strip().strip(":")
-	if default is not None:
+	prompt = prompt.strip().strip(":").title()
+	if default:
 		prompt = "%s [%s]: " %(prompt, default)
 	else:
 		prompt = prompt+": "
 	while True:
-		response = input(prompt)
+		try:
+			response = input(prompt)
+		except KeyboardInterrupt as e:
+			print("process interrupted. exiting now.")
+			sys.exit(0)
 		if response:
 			try:
 				response = _type(response)
 				break
 			except ValueError as e:
 				print("Enter a value with type", _type)
-		elif optional:
+		elif optional or default is not None:
 			response = default
 			break
 	return response
@@ -169,6 +190,6 @@ def lookforgit():
 
 def updateconfiguration(args):
 	args = processargs(args)
-	with open(CONFIG) as file: config = yaml.load(file)
+	with open(CONFIG) as file: config = yaml.load(file, Loader=yaml.FullLoader)
 	config.update(args.tree)
 	with open(CONFIG, "w") as file: yaml.dump(config, file)

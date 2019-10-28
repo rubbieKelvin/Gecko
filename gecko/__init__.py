@@ -26,8 +26,8 @@ class Gecko(object):
 
 			elif args[1].strip() == "-q":
 				# creates a project by collecting queries
-				pass
-			
+				utils.query(args, defaults=self.options)
+
 			elif args[1].strip() == "gui":
 				# shows gui.. alternatively do not add an argument
 				utils.showgui(args, defaults=self.options)
@@ -44,7 +44,7 @@ class Gecko(object):
 				print(f"'{args[1]}' is not a valid command")
 		elif len(args) == 1:
 			utils.showgui(args, defaults=self.options)
-		
+
 
 	def ensureconfig(self):
 		if not self.configured():
@@ -65,7 +65,7 @@ class Gecko(object):
 			return False
 		else:
 			with open(CONFIG) as file:
-				conf_ = yaml.load(file)
+				conf_ = yaml.load(file, Loader=yaml.FullLoader)
 			self.options.update(conf_)
 
 
