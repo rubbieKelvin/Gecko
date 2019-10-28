@@ -8,7 +8,10 @@ install with pypi
 ```bash
 pip install autogecko
 ```
-or just clone from the git url
+or just clone from the git url. be sure to run the code on terminal before using this program if you cloned from git.
+```bash
+pip install -r requirement.txt
+```
 
 ### show help
 ```bash
@@ -18,6 +21,11 @@ python autogecko.py -h
 ### create project from terminal instead of gui
 ```bash
 python autogecko.py -c
+```
+
+### create project using an interactive session
+```bash
+python autogecko.py -q
 ```
 
 ### show gui, alternatively run without argument
