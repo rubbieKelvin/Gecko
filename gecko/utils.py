@@ -5,9 +5,11 @@ import yaml
 import json
 import subprocess
 
-TEMPLATE_DIR = "gecko\\templates"
-EXTENSION = ".gecko"
 from . import CONFIG
+from . import ROOT
+
+TEMPLATE_DIR = os.path.join(ROOT, "templates")
+EXTENSION = ".gecko"
 
 def newfile(root, name, content=""):
 	with open(os.path.join(root, name), "w") as file:
@@ -41,7 +43,7 @@ def query(args, defaults):
 	author = require(prompt="author", default=args.get("author"))
 	descr = require(prompt="project description", optional=True, default="")
 	readme = require(prompt="use readme yes=>1, no=>0.", _type=int)
-	license = require(prompt="license file path", optional=True)
+	license = require(prompt="license file path", optional=True, default="")
 
 	args.feed({"root":root, "projectname":name, "author":author, "description":descr, "readme":readme, "license":license, "template":temp})
 	createproject(["", ""], defaults=args.tree.copy(), ignorerequired=True)
@@ -113,7 +115,9 @@ def installgeckotemplate(args):
 	args = processargs(args)
 	with open(args.get("json")) as file:
 		jsn = json.load(file)
-	with open(os.path.join(TEMPLATE_DIR, args.get("name")+EXTENSION), "w") as file:
+	name = args.get("name")
+	if not name: name = "new"
+	with open(os.path.join(TEMPLATE_DIR, name+EXTENSION), "w") as file:
 		yaml.dump(jsn, file)
 
 def showgui(args, defaults={}):

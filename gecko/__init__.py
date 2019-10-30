@@ -1,6 +1,8 @@
 import os, json, yaml
 
 CONFIG = "geckoconfig.yml"
+ROOT = os.path.split(os.path.abspath(__file__))[0]
+
 from . import utils
 
 class Gecko(object):
