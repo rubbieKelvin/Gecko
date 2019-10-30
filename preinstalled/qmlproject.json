@@ -1,0 +1,6 @@
+{
+	"app.py":"import sys, os\nfrom PySide2.QtWidgets import QApplication\nfrom PySide2.QtQml import QQmlApplicationEngine, qmlRegisterType\n\n\nif __name__ == '__main__':\n	appname = 'app'\n	os.environ['QT_QUICK_CONTROLS_STYLE'] = 'Material'\n\n\n	# create application objects\n	app = QApplication(sys.argv)\n	app.setApplicationName(appname)\n	app.setOrganizationName('apporg')\n	app.setOrganizationDomain('org.apporg.%s' %appname.lower())\n\n	# create qml app engine\n	engine = QQmlApplicationEngine()\n	engine.load('ui/app.qml')\n	engine.quit.connect(app.quit)\n\n	# exit program\n	sys.exit(app.exec_())\n",
+	"ui":{
+		"components":{},
+		"app.qml":"import QtQuick 2.6\nimport QtQuick.Layouts 1.3\nimport QtQuick.Controls 2.9\nimport QtQuick.Window 2.2\nimport QtQuick.Controls.Material 2.0\nimport 'components'\n\nApplicationWindow{\n    id: root\n    width: 900\n    height: 600\n    title: qsTr('App')\n    visible: true\n	}"
+}
