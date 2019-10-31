@@ -2,4 +2,3 @@ venv/
 gecko/__pycache__
 geckoconfig.yml
 __pycache__
-gecko/templates/*.*

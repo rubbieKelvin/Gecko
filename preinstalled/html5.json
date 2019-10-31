@@ -1,0 +1,9 @@
+{
+	"css":{
+		"index.css":""
+	},
+	"js":{
+		"index.js":"// Javascript\nalert(\"Hello world\");"
+	},
+	"index.html":"<!DOCTYPE html> \n<html> \n<head> \n\t<title>Hello World</title> \n\t<meta charset=\"utf-8\">\n \n\t<!-- styles --> \n\t<link rel=\"stylesheet\" type=\"text/css\" href=\"css/index.css\"> \n</head> \n<body>\n \n\t<!-- scripts --> \n\t<script type=\"text/javascript\" src=\"js/index.js\"></script> \n</body> \n</html>"
+}
