@@ -109,7 +109,7 @@ ApplicationWindow{
                         anchors.right: parent.right
                         anchors.rightMargin: 0
                         spacing: 20
-                        currentIndex: 1
+                        currentIndex: 2
                         highlight: Rectangle{
                             width: 3
                             height: 40
@@ -342,12 +342,12 @@ ApplicationWindow{
                                     font.pixelSize: 12
                                     font.family: "Nunito"
                                     placeholderText: "Enter Project Name..."
-									Material.foreground: Gecko.theme.white
-									background: Rectangle{
-										color: Gecko.theme.black
-										radius: 4
-									}
-									padding: 4
+                                    Material.foreground: Gecko.theme.white
+                                    background: Rectangle{
+                                        color: Gecko.theme.black
+                                        radius: 4
+                                    }
+                                    padding: 4
                                 }
 
                                 ComboBox {
@@ -357,14 +357,14 @@ ApplicationWindow{
                                     Layout.preferredWidth: 294
                                     font.pixelSize: 12
                                     font.family: "Nunito"
-									Material.foreground: Gecko.theme.white
-									flat: true
-									model: Gecko.templatelist
-									background: Rectangle{
-										color: Gecko.theme.black
-										radius: 4
-									}
-									padding: 4
+                                    Material.foreground: Gecko.theme.white
+                                    flat: true
+                                    model: Gecko.templatelist
+                                    background: Rectangle{
+                                        color: Gecko.theme.black
+                                        radius: 4
+                                    }
+                                    padding: 4
                                 }
 
                                 TextArea {
@@ -378,12 +378,12 @@ ApplicationWindow{
                                     placeholderText: "Project description..."
                                     font.pixelSize: 12
                                     font.family: "Nunito"
-									Material.foreground: Gecko.theme.white
-									background: Rectangle{
-										color: Gecko.theme.black
-										radius: 4
-									}
-									padding: 4
+                                    Material.foreground: Gecko.theme.white
+                                    background: Rectangle{
+                                        color: Gecko.theme.black
+                                        radius: 4
+                                    }
+                                    padding: 4
                                 }
 
                                 CheckDelegate {
@@ -394,7 +394,7 @@ ApplicationWindow{
                                     Layout.preferredWidth: 294
                                     font.pixelSize: 12
                                     font.family: "Nunito"
-									Material.foreground: Gecko.theme.white
+                                    Material.foreground: Gecko.theme.white
                                 }
 
                                 Button {
@@ -407,8 +407,8 @@ ApplicationWindow{
                                     Layout.fillWidth: true
                                     Layout.preferredHeight: 48
                                     Layout.preferredWidth: 294
-									Material.foreground: Gecko.theme.white
-									Material.background: Gecko.theme.primary
+                                    Material.foreground: Gecko.theme.white
+                                    Material.background: Gecko.theme.primary
                                 }
                             }
                         }
@@ -424,8 +424,81 @@ ApplicationWindow{
 
                         Rectangle {
                             id: rectangle3
-                            color: "#8e59e2"
+                            color: Gecko.theme.dark
                             anchors.fill: parent
+
+                            ColumnLayout {
+                                x: 8
+                                y: 8
+
+                                TextField {
+                                    id: authorname
+                                    text: qsTr("")
+                                    font.family: "Nunito"
+                                    padding: 4
+                                    Layout.fillWidth: true
+                                    Layout.preferredWidth: 294
+                                    background: Rectangle {
+                                        color: Gecko.theme.black
+                                        radius: 4
+                                    }
+                                    placeholderText: "Author's Name..."
+                                    bottomPadding: 8
+                                    Layout.preferredHeight: 50
+                                    font.pixelSize: 12
+									Material.foreground: Gecko.theme.white
+                                }
+
+                                TextField {
+                                    id: gitpath
+                                    text: qsTr("")
+                                    font.family: "Nunito"
+                                    padding: 4
+                                    Layout.fillWidth: true
+                                    Layout.preferredWidth: 294
+                                    background: Rectangle {
+                                        color: Gecko.theme.black
+                                        radius: 4
+                                    }
+                                    placeholderText: "Git.exe Path..."
+                                    bottomPadding: 8
+                                    Layout.preferredHeight: 50
+                                    font.pixelSize: 12
+									Material.foreground: Gecko.theme.white
+                                }
+
+                                TextField {
+                                    id: rootfolder
+                                    text: qsTr("")
+                                    font.family: "Nunito"
+                                    padding: 4
+                                    Layout.fillWidth: true
+                                    Layout.preferredWidth: 294
+                                    background: Rectangle {
+                                        color: Gecko.theme.black
+                                        radius: 4
+                                    }
+                                    placeholderText: "Project root folder"
+                                    bottomPadding: 8
+                                    Layout.preferredHeight: 50
+                                    font.pixelSize: 12
+									Material.foreground: Gecko.theme.white
+                                }
+
+                                Button {
+                                    id: savesettings
+                                    text: qsTr("Save")
+                                    font.family: "Nunito"
+                                    font.capitalization: Font.Capitalize
+                                    Layout.fillWidth: true
+                                    Layout.preferredWidth: 294
+                                    Layout.fillHeight: false
+                                    Layout.preferredHeight: 48
+                                    font.pixelSize: 13
+									Material.foreground: Gecko.theme.white
+                                    Material.background: Gecko.theme.primary
+                                }
+                            }
                         }
                     }
                 }
