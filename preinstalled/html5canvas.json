@@ -2,7 +2,7 @@
     "res":{
         "images":{},
         "sounds":{},
-        "main.css":"",
+        "main.css":""
     },
     "src":{
         "main.js":"const canvas = document.querySelector(\"#canvas\");\nconst ctx = canvas.getContext(\"2d\");\nconsole.log(ctx.canvas);"

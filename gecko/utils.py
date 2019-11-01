@@ -149,9 +149,10 @@ def showgui(args, defaults={}):
 
 def toargs(**kwargs):
 	res = ""
+	res_ = ["", ""]
 	for i in kwargs:
 		res = res + i + "=" +kwargs[i] + "<=>"
-	return res.strip("<=>").split("<=>")
+	return res_+res.strip("<=>").split("<=>")
 
 class processargs(object):
 	def __init__(self, args, default={}):

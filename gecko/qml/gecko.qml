@@ -184,6 +184,7 @@ ApplicationWindow{
                                 y: 8
                                 width: 584
                                 height: 60
+								visible: true
                                 contentHeight: 60
                                 contentWidth: 548
                                 font.family: "Nunito"
@@ -230,6 +231,11 @@ ApplicationWindow{
                                     font.family: "Nunito"
                                     Material.background: Gecko.theme.primary
                                     Material.foreground: Gecko.theme.white
+
+									onClicked:{
+										var tobj = {rectobj:toastrect, textobj:toastmessage, timeobj:toasttimer};
+										Gecko.install(jsonfilepath.text, newtemplatename.text, tobj);
+									}
                                 }
                             }
 
@@ -359,7 +365,7 @@ ApplicationWindow{
                                     font.family: "Nunito"
                                     Material.foreground: Gecko.theme.white
                                     flat: true
-                                    model: Gecko.templatelist
+                                    model: Gecko.templatelist()
                                     background: Rectangle{
                                         color: Gecko.theme.black
                                         radius: 4

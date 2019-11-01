@@ -8,8 +8,9 @@ let theme = {
 	error: "#EB5757"
 };
 let alertmode = {ERROR: theme.error, SUCCESS: theme.primary, WARNING: theme.secondary};
-let templatelist = ["Qml", "PythonModule", "Html"];
-
+let templatelist = () => {
+	return ["Hey", "ER"];
+};
 let configuration = () => {
 	return JSON.parse(QGecko.configuration);
 }
@@ -33,5 +34,20 @@ const configure = (author, git, root, toastobj) => {
 		}else{
 			toast(toastobj, "Gecko configured!", alertmode.SUCCESS);
 		}
+	}else {
+		toast(toastobj, "Please fill empty forms.", alertmode.WARNING);
+	}
+}
+
+const install = (jsonpath, name, toastobj) => {
+	if (jsonpath.length != 0 && name.lenght != 0){
+		let response = QGecko.installtemplate(jsonpath, name);
+		if (response){
+			toast(toastobj, "template installed", alertmode.SUCCESS);
+		}else {
+			toast(toastobj, "error installing template", alertmode.ERROR);
+		}
+	}else {
+		toast(toastobj, "Please fill empty forms.", alertmode.WARNING);
 	}
 }
