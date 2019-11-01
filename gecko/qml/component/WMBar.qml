@@ -7,21 +7,25 @@ import "../js/app.js" as Gecko
 Rectangle{
     id: root
     height: 50
-    color: "#00000000"
+    color: Gecko.theme.dark
+    property string title: "Title"
     width: 800
 	enabled: visible
 
 	signal closeClicked()
 
     Rectangle {
+        id: rectangle
         width: 200
         height: parent.height
-        color: Gecko.theme.low_contrast
+        color: Gecko.theme.black
 
         Image {
             id: icon
-            anchors.fill: parent
-            source: "res/logo.png"
+            anchors.left: parent.left
+            anchors.leftMargin: 20
+            anchors.verticalCenter: parent.verticalCenter
+            source: "res/autogecko.py.png"
             fillMode: Image.PreserveAspectFit
         }
     }
@@ -29,13 +33,17 @@ Rectangle{
     Label {
         id: pagetitle
         color: Gecko.theme.light
-        text: qsTr("Label")
-        font.weight: Font.Bold
-        font.family: "Poppins"
+        text: qsTr(title)
+        anchors.left: rectangle.right
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+        anchors.top: parent.top
+        anchors.leftMargin: 10
+        font.weight: Font.Normal
+        font.family: "Nunito"
         font.pixelSize: 15
         verticalAlignment: Text.AlignVCenter
-        horizontalAlignment: Text.AlignHCenter
-        anchors.fill: parent
+        horizontalAlignment: Text.AlignLeft
     }
 
     WMIcon {
