@@ -1,0 +1,11 @@
+{
+    "res":{
+        "images":{},
+        "sounds":{},
+        "main.css":"",
+    },
+    "src":{
+        "main.js":"const canvas = document.querySelector(\"#canvas\");\nconst ctx = canvas.getContext(\"2d\");\nconsole.log(ctx.canvas);"
+    },
+    "index.html":"<!DOCTYPE html>\n<html>\n<head>\n\t<meta charset=\"utf-8\"/>\n\t<title>Game</title>\n\t<link rel=\"stylesheet\" href=\"/res/main.css\" />\n</head>\n<body>\n\t<canvas width=\"640\" height=\"480\" id=\"canvas\"></canvas>\n</body>\n</html>"
+}
