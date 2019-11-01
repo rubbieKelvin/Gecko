@@ -1,13 +1,18 @@
 import os
 import sys
-import eel
+# import eel
 import yaml
 import json
 import subprocess
 
-TEMPLATE_DIR = "gecko\\templates"
-EXTENSION = ".gecko"
+from PySide2.QtWidgets import QApplication
+from PySide2.QtQml import QQmlApplicationEngine, qmlRegisterType
+
 from . import CONFIG
+from . import ROOT
+
+TEMPLATE_DIR = os.path.join(ROOT, "templates")
+EXTENSION = ".gecko"
 
 def newfile(root, name, content=""):
 	with open(os.path.join(root, name), "w") as file:
@@ -41,7 +46,7 @@ def query(args, defaults):
 	author = require(prompt="author", default=args.get("author"))
 	descr = require(prompt="project description", optional=True, default="")
 	readme = require(prompt="use readme yes=>1, no=>0.", _type=int)
-	license = require(prompt="license file path", optional=True)
+	license = require(prompt="license file path", optional=True, default="")
 
 	args.feed({"root":root, "projectname":name, "author":author, "description":descr, "readme":readme, "license":license, "template":temp})
 	createproject(["", ""], defaults=args.tree.copy(), ignorerequired=True)
@@ -113,12 +118,40 @@ def installgeckotemplate(args):
 	args = processargs(args)
 	with open(args.get("json")) as file:
 		jsn = json.load(file)
-	with open(os.path.join(TEMPLATE_DIR, args.get("name")+EXTENSION), "w") as file:
+	name = args.get("name")
+	if not name: name = "new"
+	with open(os.path.join(TEMPLATE_DIR, name+EXTENSION), "w") as file:
 		yaml.dump(jsn, file)
 
 def showgui(args, defaults={}):
-	eel.init("gecko\\web")
-	eel.start("index.html")
+	# eel.init("gecko\\web")
+	# eel.start("index.html")
+	from .qmlplugins import QmlGecko
+
+	appname = "autoGecko"
+	QGecko = QmlGecko()
+	os.environ["QT_QUICK_CONTROLS_STYLE"] = "Material"
+
+	# create application objects
+	app = QApplication(args)
+	app.setApplicationName(appname)
+	app.setOrganizationName("rubbiesoft")
+	app.setOrganizationDomain("org.rubbiesoft.%s" %appname.lower())
+
+	# create qml app engine
+	engine = QQmlApplicationEngine()
+	engine.rootContext().setContextProperty("QGecko", QGecko)
+	engine.load(os.path.join(ROOT, "qml", "gecko.qml"))
+	engine.quit.connect(app.quit)
+
+	# exit program
+	sys.exit(app.exec_())
+
+def toargs(**kwargs):
+	res = ""
+	for i in kwargs:
+		res = res + i + "=" +kwargs[i] + "<=>"
+	return res.strip("<=>").split("<=>")
 
 class processargs(object):
 	def __init__(self, args, default={}):
@@ -134,6 +167,7 @@ class processargs(object):
 				value = item.split("=")[1].strip()
 				self.result[key] = value
 			else:
+				print(args)
 				raise KeyError("syntax: 'key=value'")
 
 	def __repr__(self):
@@ -193,3 +227,8 @@ def updateconfiguration(args):
 	with open(CONFIG) as file: config = yaml.load(file, Loader=yaml.FullLoader)
 	config.update(args.tree)
 	with open(CONFIG, "w") as file: yaml.dump(config, file)
+
+def configuration():
+	with open(CONFIG) as file:
+		res = yaml.load(file, Loader=yaml.FullLoader)
+	return res

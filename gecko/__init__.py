@@ -1,6 +1,8 @@
 import os, json, yaml
 
 CONFIG = "geckoconfig.yml"
+ROOT = os.path.split(os.path.abspath(__file__))[0]
+
 from . import utils
 
 class Gecko(object):
@@ -67,8 +69,6 @@ class Gecko(object):
 			with open(CONFIG) as file:
 				conf_ = yaml.load(file, Loader=yaml.FullLoader)
 			self.options.update(conf_)
-
-
 
 	def configured(self):
 		# checks if gecko is configured
