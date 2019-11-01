@@ -20,17 +20,17 @@ ApplicationWindow{
     x: (Screen.desktopAvailableWidth/2)-(width/2)
     y: (Screen.desktopAvailableHeight/2)-(height/2)
     Material.accent: Gecko.theme.primary
-    
+
     Component.onCompleted: {
         main.currentIndex = 0
         navlist.currentIndex = 0
     }
-    
+
     StackLayout {
         id: main
         currentIndex: 1
         anchors.fill: parent
-        
+
         Page {
             id: intropage
             width: 200
@@ -38,12 +38,12 @@ ApplicationWindow{
             Layout.fillHeight: true
             Layout.fillWidth: true
             enabled: (main.currentIndex == 0)
-            
+
             Rectangle {
                 id: rectangle
                 anchors.fill: parent
                 color: Gecko.theme.dark
-                
+
                 Image {
                     id: image
                     x: 280
@@ -51,7 +51,7 @@ ApplicationWindow{
                     source: "res/logobig.png"
                     fillMode: Image.PreserveAspectFit
                 }
-                
+
                 ProgressBar {
                     y: 504
                     anchors.right: parent.right
@@ -62,18 +62,18 @@ ApplicationWindow{
                     anchors.bottomMargin: 0
                     indeterminate: true
                     value: 0.5
-                    
+
                     Timer {
                         interval: 3000
                         running: true
                         repeat: false
-                        
+
                         onTriggered: main.currentIndex = 1;
                     }
                 }
             }
         }
-        
+
         Page {
             id: mainpage
             width: 200
@@ -81,13 +81,13 @@ ApplicationWindow{
             Layout.fillHeight: true
             Layout.fillWidth: true
             enabled: (main.currentIndex == 1)
-            
+
             Rectangle {
                 id: body
                 color: Gecko.theme.dark
                 anchors.topMargin: 49
                 anchors.fill: parent
-                
+
                 Rectangle {
                     id: sidebar
                     width: 200
@@ -96,7 +96,7 @@ ApplicationWindow{
                     anchors.topMargin: 0
                     anchors.bottom: parent.bottom
                     anchors.bottomMargin: 0
-                    
+
                     ListView {
                         id: navlist
                         y: 35
@@ -121,13 +121,13 @@ ApplicationWindow{
                             width: parent.width
                             itext: itemtext
                             color: (navitem == navlist.currentItem) ? Gecko.theme.primary : "#00000000"
-                            
+
                             MouseArea{
                                 anchors.fill: parent
                                 hoverEnabled: true
                                 cursorShape: Qt.PointingHandCursor
                                 enabled: true
-                                
+
                                 onClicked: {
                                     var x = parent.x
                                     var y = parent.y
@@ -140,18 +140,18 @@ ApplicationWindow{
                             ListElement{
                                 itemtext: "Template"
                             }
-                            
+
                             ListElement{
                                 itemtext: "Project"
                             }
-                            
+
                             ListElement{
                                 itemtext: "Settings"
                             }
                         }
                     }
                 }
-                
+
                 StackLayout {
                     id: workstack
                     anchors.rightMargin: 0
@@ -164,7 +164,7 @@ ApplicationWindow{
                     anchors.top: parent.top
                     anchors.leftMargin: 0
                     currentIndex: navlist.currentIndex
-                    
+
                     Page {
                         id: template_page
                         width: 200
@@ -172,12 +172,12 @@ ApplicationWindow{
                         title: "Templates"
                         Layout.fillHeight: true
                         Layout.fillWidth: true
-                        
+
                         Rectangle {
                             id: rectangle1
                             color: Gecko.theme.dark
                             anchors.fill: parent
-                            
+
                             Pane {
                                 id: tempformpane
                                 x: 8
@@ -189,14 +189,14 @@ ApplicationWindow{
                                 font.family: "Nunito"
                                 Material.elevation: 5
                                 Material.background: Gecko.theme.black
-                                
+
                                 RowLayout {
                                     x: 8
                                     y: 8
                                     width: 461
                                     height: 43
                                     anchors.verticalCenter: parent.verticalCenter
-                                    
+
                                     TextField {
                                         id: jsonfilepath
                                         color: "#d8d8d8"
@@ -206,7 +206,7 @@ ApplicationWindow{
                                         font.family: "Nunito"
                                         Layout.fillWidth: true
                                     }
-                                    
+
                                     TextField {
                                         id: newtemplatename
                                         color: "#c8c8c8"
@@ -216,7 +216,7 @@ ApplicationWindow{
                                         Layout.fillWidth: true
                                     }
                                 }
-                                
+
                                 Button{
                                     id: button
                                     x: 718
@@ -232,7 +232,7 @@ ApplicationWindow{
                                     Material.foreground: Gecko.theme.white
                                 }
                             }
-                            
+
                             ScrollView{
                                 clip: true
                                 anchors.bottomMargin: 8
@@ -240,7 +240,7 @@ ApplicationWindow{
                                 anchors.leftMargin: 8
                                 anchors.topMargin: 93
                                 anchors.fill: parent
-                                
+
                                 ListView {
                                     id: templist
                                     delegate: TempItem{
@@ -257,49 +257,49 @@ ApplicationWindow{
                                             date: "23, Oct."
                                             iid: 0
                                         }
-                                        
+
                                         ListElement {
                                             name: "Red"
                                             filesize: "500 kb"
                                             date: "23, Oct."
                                             iid: 1
                                         }
-                                        
+
                                         ListElement {
                                             name: "Html"
                                             filesize: "500 kb"
                                             date: "23, Oct."
                                             iid: 1
                                         }
-                                        
+
                                         ListElement {
                                             name: "PythonModule"
                                             filesize: "500 kb"
                                             date: "23, Oct."
                                             iid: 1
                                         }
-                                        
+
                                         ListElement {
                                             name: "Fask"
                                             filesize: "500 kb"
                                             date: "23, Oct."
                                             iid: 1
                                         }
-                                        
+
                                         ListElement {
                                             name: "Thesis"
                                             filesize: "500 kb"
                                             date: "23, Oct."
                                             iid: 1
                                         }
-                                        
+
                                         ListElement {
                                             name: "Qml"
                                             filesize: "500 kb"
                                             date: "23, Oct."
                                             iid: 1
                                         }
-                                        
+
                                         ListElement {
                                             name: "Eel"
                                             filesize: "500 kb"
@@ -311,7 +311,7 @@ ApplicationWindow{
                             }
                         }
                     }
-                    
+
                     Page {
                         id: project_page
                         width: 200
@@ -319,42 +319,56 @@ ApplicationWindow{
                         title: "New Projects"
                         Layout.fillHeight: true
                         Layout.fillWidth: true
-                        
+
                         Rectangle {
                             id: rectangle2
                             color: Gecko.theme.dark
                             anchors.fill: parent
-                            
+
                             ColumnLayout {
                                 x: 8
                                 y: 29
                                 width: 352
                                 height: 454
                                 spacing: 10
-                                
+
                                 TextField {
-                                    id: textField
+                                    id: projectname
                                     text: qsTr("")
+                                    bottomPadding: 8
                                     Layout.fillWidth: true
                                     Layout.preferredHeight: 50
                                     Layout.preferredWidth: 294
                                     font.pixelSize: 12
                                     font.family: "Nunito"
-                                    placeholderText: "Enter Project..."
+                                    placeholderText: "Enter Project Name..."
+									Material.foreground: Gecko.theme.white
+									background: Rectangle{
+										color: Gecko.theme.black
+										radius: 4
+									}
+									padding: 4
                                 }
-                                
+
                                 ComboBox {
-                                    id: comboBox
+                                    id: templatescombo
                                     Layout.fillWidth: true
                                     Layout.preferredHeight: 50
                                     Layout.preferredWidth: 294
                                     font.pixelSize: 12
                                     font.family: "Nunito"
-                                    textRole: "Template"
+									Material.foreground: Gecko.theme.white
+									flat: true
+									model: Gecko.templatelist
+									background: Rectangle{
+										color: Gecko.theme.black
+										radius: 4
+									}
+									padding: 4
                                 }
-                                
+
                                 TextArea {
-                                    id: textArea
+                                    id: projectdescription
                                     text: qsTr("")
                                     Layout.fillHeight: true
                                     Layout.fillWidth: true
@@ -364,30 +378,42 @@ ApplicationWindow{
                                     placeholderText: "Project description..."
                                     font.pixelSize: 12
                                     font.family: "Nunito"
+									Material.foreground: Gecko.theme.white
+									background: Rectangle{
+										color: Gecko.theme.black
+										radius: 4
+									}
+									padding: 4
                                 }
-                                
+
                                 CheckDelegate {
-                                    id: checkDelegate
+                                    id: usegit
                                     text: qsTr("Use Git?")
                                     Layout.fillWidth: true
                                     Layout.preferredHeight: 48
                                     Layout.preferredWidth: 294
                                     font.pixelSize: 12
                                     font.family: "Nunito"
+									Material.foreground: Gecko.theme.white
                                 }
-                                
+
                                 Button {
-                                    id: button1
-                                    text: qsTr("Button")
+                                    id: createproject
+                                    text: qsTr("Create Project")
+                                    font.capitalization: Font.Capitalize
+                                    font.pixelSize: 13
+                                    font.family: "Nunito"
                                     Layout.fillHeight: true
                                     Layout.fillWidth: true
                                     Layout.preferredHeight: 48
                                     Layout.preferredWidth: 294
+									Material.foreground: Gecko.theme.white
+									Material.background: Gecko.theme.primary
                                 }
                             }
                         }
                     }
-                    
+
                     Page {
                         id: settings_page
                         width: 200
@@ -395,7 +421,7 @@ ApplicationWindow{
                         title: "Settings"
                         Layout.fillHeight: true
                         Layout.fillWidth: true
-                        
+
                         Rectangle {
                             id: rectangle3
                             color: "#8e59e2"
@@ -406,7 +432,7 @@ ApplicationWindow{
             }
         }
     }
-    
+
     WMBar{
         anchors.top: parent.top
         anchors.topMargin: 0
@@ -416,35 +442,9 @@ ApplicationWindow{
         anchors.leftMargin: 0
         title: workstack.children[workstack.currentIndex].title
         visible: (main.currentIndex != 0)
-        
+
         onCloseClicked:{
             Gecko.closeapp(root)
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*##^## Designer {
-    D{i:10;anchors_width:110;anchors_x:45}D{i:9;anchors_height:200}D{i:37;anchors_height:200;anchors_width:200}
-D{i:26;anchors_height:160;anchors_width:110;anchors_x:125;anchors_y:225}D{i:20;anchors_height:100;anchors_width:100;anchors_x:200;anchors_y:0}
-D{i:39;anchors_height:200;anchors_width:200}D{i:8;anchors_height:200;anchors_width:200}
-}
- ##^##*/

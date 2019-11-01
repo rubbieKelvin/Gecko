@@ -7,7 +7,7 @@ let dark_theme = {
 	white: "#F3FEFF",
 	black: "#222D32"
 };
-
+let templatelist = ["Qml", "PythonModule", "Html"]
 let theme = dark_theme;
 
 
