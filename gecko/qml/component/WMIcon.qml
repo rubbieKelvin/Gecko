@@ -16,8 +16,6 @@ Rectangle{
 
     Image {
         id: image
-        width: 25
-        height: 25
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
         source: "qrc:/qtquickplugin/images/template_image.png"
