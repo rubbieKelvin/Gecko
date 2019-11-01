@@ -70,8 +70,6 @@ class Gecko(object):
 				conf_ = yaml.load(file, Loader=yaml.FullLoader)
 			self.options.update(conf_)
 
-
-
 	def configured(self):
 		# checks if gecko is configured
 		if os.access(CONFIG, os.F_OK):

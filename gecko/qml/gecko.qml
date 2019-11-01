@@ -433,7 +433,7 @@ ApplicationWindow{
 
                                 TextField {
                                     id: authorname
-                                    text: qsTr("")
+                                    text: qsTr(Gecko.configuration().author)
                                     font.family: "Nunito"
                                     padding: 4
                                     Layout.fillWidth: true
@@ -451,7 +451,7 @@ ApplicationWindow{
 
                                 TextField {
                                     id: gitpath
-                                    text: qsTr("")
+                                    text: qsTr(Gecko.configuration().git)
                                     font.family: "Nunito"
                                     padding: 4
                                     Layout.fillWidth: true
@@ -469,7 +469,7 @@ ApplicationWindow{
 
                                 TextField {
                                     id: rootfolder
-                                    text: qsTr("")
+                                    text: qsTr(Gecko.configuration().root)
                                     font.family: "Nunito"
                                     padding: 4
                                     Layout.fillWidth: true
@@ -497,6 +497,10 @@ ApplicationWindow{
                                     font.pixelSize: 13
 									Material.foreground: Gecko.theme.white
                                     Material.background: Gecko.theme.primary
+
+									onClicked: {
+										Gecko.configure(authorname.text, gitpath.text, rootfolder.text, {rectobj:toastrect, textobj:toastmessage, timeobj:toasttimer});
+									}
                                 }
                             }
                         }
@@ -519,5 +523,37 @@ ApplicationWindow{
         onCloseClicked:{
             Gecko.closeapp(root)
         }
+    }
+
+    Rectangle {
+        id: toastrect
+        width: 300
+        height: 50
+        color: Gecko.theme.secondary
+        radius: 4
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: 20
+        anchors.horizontalCenter: parent.horizontalCenter
+		visible: false
+		enabled: visible
+
+        Label {
+            id: toastmessage
+            text: qsTr("Label")
+            font.pointSize: 10
+            font.family: "Nunito"
+            verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.AlignHCenter
+            anchors.fill: parent
+        }
+
+		Timer{
+			id: toasttimer
+			interval: 3000
+			running: false
+			repeat: false
+
+			onTriggered: toastrect.visible = false;
+		}
     }
 }

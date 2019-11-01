@@ -1,9 +1,12 @@
 import os
 import sys
-import eel
+# import eel
 import yaml
 import json
 import subprocess
+
+from PySide2.QtWidgets import QApplication
+from PySide2.QtQml import QQmlApplicationEngine, qmlRegisterType
 
 from . import CONFIG
 from . import ROOT
@@ -121,8 +124,34 @@ def installgeckotemplate(args):
 		yaml.dump(jsn, file)
 
 def showgui(args, defaults={}):
-	eel.init("gecko\\web")
-	eel.start("index.html")
+	# eel.init("gecko\\web")
+	# eel.start("index.html")
+	from .qmlplugins import QmlGecko
+
+	appname = "autoGecko"
+	QGecko = QmlGecko()
+	os.environ["QT_QUICK_CONTROLS_STYLE"] = "Material"
+
+	# create application objects
+	app = QApplication(args)
+	app.setApplicationName(appname)
+	app.setOrganizationName("rubbiesoft")
+	app.setOrganizationDomain("org.rubbiesoft.%s" %appname.lower())
+
+	# create qml app engine
+	engine = QQmlApplicationEngine()
+	engine.rootContext().setContextProperty("QGecko", QGecko)
+	engine.load(os.path.join(ROOT, "qml", "gecko.qml"))
+	engine.quit.connect(app.quit)
+
+	# exit program
+	sys.exit(app.exec_())
+
+def toargs(**kwargs):
+	res = ""
+	for i in kwargs:
+		res = res + i + "=" +kwargs[i] + "<=>"
+	return res.strip("<=>").split("<=>")
 
 class processargs(object):
 	def __init__(self, args, default={}):
@@ -138,6 +167,7 @@ class processargs(object):
 				value = item.split("=")[1].strip()
 				self.result[key] = value
 			else:
+				print(args)
 				raise KeyError("syntax: 'key=value'")
 
 	def __repr__(self):
@@ -197,3 +227,8 @@ def updateconfiguration(args):
 	with open(CONFIG) as file: config = yaml.load(file, Loader=yaml.FullLoader)
 	config.update(args.tree)
 	with open(CONFIG, "w") as file: yaml.dump(config, file)
+
+def configuration():
+	with open(CONFIG) as file:
+		res = yaml.load(file, Loader=yaml.FullLoader)
+	return res
