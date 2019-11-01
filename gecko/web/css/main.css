@@ -1,5 +1,87 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #141414;
+  font-family: "Poppins", sans-serif;
+}
+
 .inner {
   display: -ms-grid;
   display: grid;
+}
+
+.inner .right {
+  color: #fff;
+  margin-left: 250px;
+}
+
+.inner .right ul {
+  list-style: none;
+  margin-top: 80px;
+}
+
+.inner .right ul li a {
+  text-decoration: none;
+  display: block;
+  line-height: 38px;
+  border-bottom: 1px solid #252733;
+  width: 90%;
+  color: #252733;
+}
+
+nav {
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  bottom: 0;
+  width: 200px;
+  background-color: #0c0c0c;
+}
+
+nav h1 {
+  color: white;
+  margin: 20px 0 0px 40px;
+}
+
+nav ul {
+  list-style: none;
+  margin-top: 150px;
+  border: 0px;
+  padding-left: 0px;
+}
+
+nav ul li a {
+  text-decoration: none;
+  display: block;
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
+  -ms-grid-column-align: center;
+      justify-self: center;
+  text-align: center;
+  color: #fff;
+  padding: 10px;
+}
+
+nav ul li a span {
+  color: #29cc97;
+  padding-left: 60%;
+}
+
+nav ul a:link {
+  color: #fff;
+}
+
+nav ul a:visited {
+  color: #fff;
+}
+
+nav ul a:hover {
+  background-color: #080808;
+}
+
+.active {
+  background-color: #080808;
+  border-left: 3px solid #080877;
 }
 /*# sourceMappingURL=main.css.map */
