@@ -9,12 +9,15 @@ Rectangle{
     height: 50
     color: "#00000000"
     width: 800
-    
+	enabled: visible
+
+	signal closeClicked()
+
     Rectangle {
         width: 200
         height: parent.height
         color: Gecko.theme.low_contrast
-        
+
         Image {
             id: icon
             anchors.fill: parent
@@ -22,7 +25,7 @@ Rectangle{
             fillMode: Image.PreserveAspectFit
         }
     }
-    
+
     Label {
         id: pagetitle
         color: Gecko.theme.light
@@ -34,12 +37,17 @@ Rectangle{
         horizontalAlignment: Text.AlignHCenter
         anchors.fill: parent
     }
-    
+
     WMIcon {
         id: wMIcon
         anchors.right: parent.right
         anchors.rightMargin: 0
         image.source: "res/cancel.png"
+
+		onClick:{
+			closeClicked()
+		}
+
     }
-    
+
 }

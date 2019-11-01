@@ -11,39 +11,41 @@ Rectangle{
     color: "#00000000"
     property alias image: image
     clip: true
-    
+
     signal click()
-    
+
     Image {
         id: image
-        width: 30
-        height: 30
+        width: 25
+        height: 25
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
         source: "qrc:/qtquickplugin/images/template_image.png"
         fillMode: Image.PreserveAspectFit
     }
-    
+
     MouseArea {
         id: mouseArea
         hoverEnabled: true
         anchors.fill: parent
         cursorShape: Qt.PointingHandCursor
-        
+
         onEntered: {
-            root.color = "#66000000"
+            root.color = "#33000000"
         }
-        
+
         onExited: {
             root.color = "#00000000"
         }
-        
+
         onPressed: {
-            root.color = "#88000000"
+			root.color = "#66000000"
             click()
         }
     }
 }
+
+
 
 
 

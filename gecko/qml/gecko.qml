@@ -19,8 +19,85 @@ ApplicationWindow{
     flags: Qt.FramelessWindowHint | Qt.Window
     x: (Screen.desktopAvailableWidth/2)-(width/2)
     y: (Screen.desktopAvailableHeight/2)-(height/2)
-    
+	Material.accent: Gecko.theme.primary
+
+    StackLayout {
+        id: main
+        anchors.fill: parent
+
+        Page {
+            id: intropage
+            width: 200
+            height: 200
+            Layout.fillHeight: true
+            Layout.fillWidth: true
+			enabled: (main.currentIndex == 0)
+
+            Rectangle {
+                id: rectangle
+                anchors.fill: parent
+                color: Gecko.theme.dark
+
+                Image {
+                    id: image
+                    x: 280
+                    y: 180
+                    source: "res/logobig.png"
+                    fillMode: Image.PreserveAspectFit
+                }
+
+                ProgressBar {
+                    y: 504
+                    anchors.right: parent.right
+                    anchors.rightMargin: 0
+                    anchors.left: parent.left
+                    anchors.leftMargin: 0
+                    anchors.bottom: parent.bottom
+                    anchors.bottomMargin: 0
+                    indeterminate: true
+                    value: 0.5
+
+					Timer {
+						interval: 3000
+						running: true
+						repeat: false
+
+						onTriggered: main.currentIndex = 1;
+					}
+                }
+            }
+        }
+
+		Page {
+            id: otheropage
+            width: 200
+            height: 200
+            Layout.fillHeight: true
+            Layout.fillWidth: true
+			enabled: (main.currentIndex == 1)
+		}
+	}
+
     WMBar{
-        width: parent.width
+        anchors.top: parent.top
+        anchors.topMargin: 0
+        anchors.right: parent.right
+        anchors.rightMargin: 0
+        anchors.left: parent.left
+        anchors.leftMargin: 0
+        visible: false
+
+        onCloseClicked:{
+            Gecko.closeapp(root)
+        }
     }
 }
+
+
+
+
+
+/*##^## Designer {
+    D{i:5;anchors_x:69}D{i:1;anchors_height:100;anchors_width:100}D{i:6;anchors_width:800}
+}
+ ##^##*/
