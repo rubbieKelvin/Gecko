@@ -99,7 +99,7 @@ const install = (jsonpath, name, model, toastobj) => {
 
 const createproject = (dataobj, toastobj) => {
 	if (dataobj.name.text.length != 0 && dataobj.template.currentText.length != 0 && dataobj.description.text.length != 0){
-		let res = QGecko.createproject(dataobj.name.text, dataobj.template.currentText, dataobj.description.text, dataobj.git.value);
+		let res = QGecko.createproject(dataobj.name.text, dataobj.template.currentText, dataobj.description.text, dataobj.git.checked);
 		if (res){
 			toast(toastobj, "Project '"+ dataobj.name.text +"' created.", alertmode.SUCCESS);
 		}else {

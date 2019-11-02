@@ -1,6 +1,5 @@
 from PySide2.QtCore import Property, Slot, Signal, QObject
 from . import utils
-from datetime import datetime
 import json, os
 
 class QmlGecko(QObject):
@@ -66,8 +65,6 @@ class QmlGecko(QObject):
 			try: utils.installgeckotemplate(utils.toargs(**data))
 			except json.decoder.JSONDecodeError as e: return False
 			with open(jsonpath) as file: data["size"] = len(file.read())
-			d = datetime.utcnow()
-			data["date"] = str(d.date())
 			self.templateAdded.emit(json.dumps(data))
 			return True
 		return False
@@ -79,6 +76,7 @@ class QmlGecko(QObject):
 			args.feed(utils.configuration())
 			args.feed({"projectname":name, "description":descr, "readme":1, "license":'', "template":template})
 			if not git: args.set("git", "0")
+			print(args.tree)
 			utils.createproject(["", ""], defaults=args.tree.copy(), ignorerequired=True)
 			return True
 		except Exception as e:
