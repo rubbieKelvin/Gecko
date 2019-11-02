@@ -1,4 +1,7 @@
+[![Gecko](http://rubbienary.herokuapp.com/uploaded/obyG91_WXbENZTi__-intro.png)](https://rubbiekelvin.github.io/Gecko)
+
 # Gecko
+
 
 ## project creation automator
 automate the process of creating project file structure and also the boring CLI commands
