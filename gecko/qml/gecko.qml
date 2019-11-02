@@ -343,6 +343,7 @@ ApplicationWindow{
                                         radius: 4
                                     }
                                     padding: 4
+									clip: true
                                 }
 
                                 CheckDelegate {
