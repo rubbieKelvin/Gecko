@@ -234,7 +234,7 @@ ApplicationWindow{
 
 									onClicked:{
 										var tobj = {rectobj:toastrect, textobj:toastmessage, timeobj:toasttimer};
-										Gecko.install(jsonfilepath.text, newtemplatename.text, tobj);
+										Gecko.install(jsonfilepath.text, newtemplatename.text, tempmodel, tobj);
 									}
                                 }
                             }
@@ -253,66 +253,18 @@ ApplicationWindow{
                                         width: parent.width
                                         namelabel.text: name
                                         sizelabel.text: filesize
-                                        datelabel.text: date
-                                        itemid: iid
+
+										onDeleteClicked:{
+											var tobj = {rectobj:toastrect, textobj:toastmessage, timeobj:toasttimer};
+											Gecko.uninstall(name, tempmodel, tobj);
+										}
                                     }
-                                    model: ListModel {
-                                        ListElement {
-                                            name: "Grey"
-                                            filesize: "500 kb"
-                                            date: "23, Oct."
-                                            iid: 0
-                                        }
-
-                                        ListElement {
-                                            name: "Red"
-                                            filesize: "500 kb"
-                                            date: "23, Oct."
-                                            iid: 1
-                                        }
-
-                                        ListElement {
-                                            name: "Html"
-                                            filesize: "500 kb"
-                                            date: "23, Oct."
-                                            iid: 1
-                                        }
-
-                                        ListElement {
-                                            name: "PythonModule"
-                                            filesize: "500 kb"
-                                            date: "23, Oct."
-                                            iid: 1
-                                        }
-
-                                        ListElement {
-                                            name: "Fask"
-                                            filesize: "500 kb"
-                                            date: "23, Oct."
-                                            iid: 1
-                                        }
-
-                                        ListElement {
-                                            name: "Thesis"
-                                            filesize: "500 kb"
-                                            date: "23, Oct."
-                                            iid: 1
-                                        }
-
-                                        ListElement {
-                                            name: "Qml"
-                                            filesize: "500 kb"
-                                            date: "23, Oct."
-                                            iid: 1
-                                        }
-
-                                        ListElement {
-                                            name: "Eel"
-                                            filesize: "500 kb"
-                                            date: "23, Oct."
-                                            iid: 1
-                                        }
-                                    }
+                                    model:ListModel{
+										id: tempmodel
+									}
+									Component.onCompleted: {
+										Gecko.feedtempmodel(tempmodel);
+									}
                                 }
                             }
                         }
@@ -365,7 +317,8 @@ ApplicationWindow{
                                     font.family: "Nunito"
                                     Material.foreground: Gecko.theme.white
                                     flat: true
-                                    model: Gecko.templatelist()
+									textRole: "name"
+                                    model: tempmodel
                                     background: Rectangle{
                                         color: Gecko.theme.black
                                         radius: 4
@@ -551,6 +504,7 @@ ApplicationWindow{
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
             anchors.fill: parent
+			color: Gecko.theme.white
         }
 
 		Timer{

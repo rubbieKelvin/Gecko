@@ -22,8 +22,8 @@ class QmlGecko(QObject):
 		tempdata = []
 		for temp in templist:
 			if temp.endswith(".gecko"):
-				item = {"name":temp.strip(".gecko")}
-				with open(os.path.join(utils.TEMPLATE_DIR, temp)) as file: item["size"] = len(file.read())
+				item = {"name":temp[:-6]}
+				with open(os.path.join(utils.TEMPLATE_DIR, temp)) as file: item["filesize"] = str(len(file.read())/1000)+" kb"
 				tempdata.append(item)
 		return json.dumps(tempdata)
 
@@ -37,6 +37,20 @@ class QmlGecko(QObject):
 			self.configurationChanged.emit(json.dumps(data))
 			return True
 		return False
+
+	@Slot(str, result=bool)
+	def removetemplate(self, name):
+		file = os.path.join(utils.TEMPLATE_DIR, name+".gecko")
+		print(file, os.access(file, os.F_OK))
+		if os.access(file, os.F_OK):
+			try:
+				os.remove(file)
+				return True
+			except Exception as e:
+				print(e)
+				return False
+		else:
+			return False
 
 	@Slot(str, str, result=bool)
 	def installtemplate(self, jsonpath, name):

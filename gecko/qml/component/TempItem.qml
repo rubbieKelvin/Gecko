@@ -9,10 +9,10 @@ Rectangle{
     width: 584
     height: 65
     color: Gecko.theme.dark
-    property int itemid
     property alias namelabel: namelabel
     property alias sizelabel: sizelabel
-    property alias datelabel: datelabel
+
+	signal deleteClicked()
 
     DelayButton {
         id: deletebutton
@@ -32,9 +32,7 @@ Rectangle{
 		ToolTip.delay: 1000
 		ToolTip.timeout: 5000
 
-        onActivated:{
-            console.log(itemid);
-        }
+        onActivated: deleteClicked()
     }
 
     RowLayout {
@@ -43,6 +41,7 @@ Rectangle{
         anchors.rightMargin: 30
         anchors.left: parent.left
         anchors.leftMargin: 8
+		spacing: 10
 
         Label {
             id: namelabel
@@ -62,17 +61,6 @@ Rectangle{
             text: qsTr("Size")
             Layout.preferredHeight: 49
             Layout.preferredWidth: 98
-            font.family: "Nunito"
-            verticalAlignment: Text.AlignVCenter
-            font.pixelSize: 12
-        }
-
-        Label {
-            id: datelabel
-            color: Gecko.theme.light
-            text: qsTr("Date")
-            Layout.preferredHeight: 49
-            Layout.preferredWidth: 116
             font.family: "Nunito"
             verticalAlignment: Text.AlignVCenter
             font.pixelSize: 12
