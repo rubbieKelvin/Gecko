@@ -10,6 +10,11 @@ class QmlGecko(QObject):
 
 	configurationChanged = Signal(str)	# updates a json string
 	templateAdded = Signal(str)	# updates a json string
+	gitStatusChanged = Signal(bool)
+
+	@Property(bool, notify=gitStatusChanged)
+	def git_installed(self):
+		return utils.lookforgit() != "0"
 
 	@Property(str, notify=configurationChanged)
 	def configuration(self):
@@ -66,3 +71,16 @@ class QmlGecko(QObject):
 			self.templateAdded.emit(json.dumps(data))
 			return True
 		return False
+
+	@Slot(str, str, str, bool, result=bool)
+	def createproject(self, name, template, descr, git):
+		try:
+			args = utils.processargs([])
+			args.feed(utils.configuration())
+			args.feed({"projectname":name, "description":descr, "readme":1, "license":'', "template":template})
+			if not git: args.set("git", "0")
+			utils.createproject(["", ""], defaults=args.tree.copy(), ignorerequired=True)
+			return True
+		except Exception as e:
+			print(e)
+			return False

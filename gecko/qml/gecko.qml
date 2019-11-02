@@ -347,13 +347,19 @@ ApplicationWindow{
 
                                 CheckDelegate {
                                     id: usegit
-                                    text: qsTr("Use Git?")
+                                    text: (enabled) ? qsTr("Initialize Git?") : qsTr("Initialize Git?      <font color='#EB5757'>[Git not installed]</font>")
                                     Layout.fillWidth: true
                                     Layout.preferredHeight: 48
                                     Layout.preferredWidth: 294
                                     font.pixelSize: 12
                                     font.family: "Nunito"
                                     Material.foreground: Gecko.theme.white
+									enabled: QGecko.git_installed
+
+									// ToolTip.text: (enabled) ? "Check to use git" : "Git is not installed"
+									// ToolTip.delay: 2000
+									// ToolTip.timeout: 5000
+									// ToolTip.visible: hovered
                                 }
 
                                 Button {
@@ -368,6 +374,12 @@ ApplicationWindow{
                                     Layout.preferredWidth: 294
                                     Material.foreground: Gecko.theme.white
                                     Material.background: Gecko.theme.primary
+
+									onClicked: {
+										var tobj = {rectobj:toastrect, textobj:toastmessage, timeobj:toasttimer};
+										var dataobj = {name:projectname, template:templatescombo, description:projectdescription, git:usegit};
+										Gecko.createproject(dataobj, tobj);
+									}
                                 }
                             }
                         }

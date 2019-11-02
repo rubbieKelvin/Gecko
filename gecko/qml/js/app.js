@@ -68,7 +68,7 @@ const uninstall = (name, model, toastobj) => {
 }
 
 const configure = (author, git, root, toastobj) => {
-	if (author.length != 0 && git.lenght != 0 && root.lenght != 0){
+	if (author.length != 0 && git.length != 0 && root.length != 0){
 		let response = QGecko.configure(author, git, root);
 		if (!response){
 			toast(toastobj, "Could not configure Gecko! Invalid Inputs", alertmode.ERROR);
@@ -81,7 +81,7 @@ const configure = (author, git, root, toastobj) => {
 }
 
 const install = (jsonpath, name, model, toastobj) => {
-	if (jsonpath.length != 0 && name.lenght != 0){
+	if (jsonpath.length != 0 && name.length != 0){
 		let response = QGecko.installtemplate(jsonpath, name);
 		if (response){
 			toast(toastobj, "template installed", alertmode.SUCCESS);
@@ -94,5 +94,18 @@ const install = (jsonpath, name, model, toastobj) => {
 		}
 	}else {
 		toast(toastobj, "Please fill empty forms.", alertmode.WARNING);
+	}
+}
+
+const createproject = (dataobj, toastobj) => {
+	if (dataobj.name.text.length != 0 && dataobj.template.currentText.length != 0 && dataobj.description.text.length != 0){
+		let res = QGecko.createproject(dataobj.name.text, dataobj.template.currentText, dataobj.description.text, dataobj.git.value);
+		if (res){
+			toast(toastobj, "Project '"+ dataobj.name.text +"' created.", alertmode.SUCCESS);
+		}else {
+			toast(toastobj, "Project could not be created.", alertmode.ERROR);
+		}
+	}else {
+		toast(toastobj, "Fill form completly", alertmode.WARNING);
 	}
 }
