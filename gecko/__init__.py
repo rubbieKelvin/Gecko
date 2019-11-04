@@ -10,6 +10,7 @@ class Gecko(object):
 	def __init__(self, options={"root":"", "projectname":"", "author":"", "description":"", "git":None, "readme":"0", "template":"", "lisence":""}):
 		super(Gecko, self).__init__()
 		self.options = options
+		self.configured_ = True
 
 	def exec(self, *args, **kwargs):
 		if self.configured: self.exec_(*args, **kwargs)
@@ -48,8 +49,11 @@ class Gecko(object):
 			utils.showgui(args, defaults=self.options)
 
 
-	def ensureconfig(self):
+	def ensureconfig(self, args):
 		if not self.configured():
+			if len(args) < 2:
+				self.configured_ = False
+				return None
 			# collect project root
 			root = utils.require(prompt="Project root folder")
 			git = utils.require(prompt="Git.exe folder", default=utils.lookforgit(), optional=True)

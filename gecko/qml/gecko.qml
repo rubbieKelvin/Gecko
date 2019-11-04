@@ -21,16 +21,19 @@ ApplicationWindow{
     y: (Screen.desktopAvailableHeight/2)-(height/2)
     Material.accent: Gecko.theme.primary
 
+	// once the app window is created...
     Component.onCompleted: {
         main.currentIndex = 0
         navlist.currentIndex = 0
     }
 
+	// stack layout, containing the app's content
     StackLayout {
         id: main
-        currentIndex: 1
+        currentIndex: 2
         anchors.fill: parent
 
+		// introduction Page
         Page {
             id: intropage
             width: 200
@@ -68,12 +71,20 @@ ApplicationWindow{
                         running: true
                         repeat: false
 
-                        onTriggered: main.currentIndex = 1;
+                        onTriggered: {
+							var configured = QGecko.configured;
+							if (configured){
+								main.currentIndex = 1;
+							}else{
+								main.currentIndex = 2;
+							}
+						}
                     }
                 }
             }
         }
 
+		// work space
         Page {
             id: mainpage
             width: 200
@@ -405,7 +416,7 @@ ApplicationWindow{
 
                                 TextField {
                                     id: authorname
-                                    text: qsTr(Gecko.configuration().author)
+                                    text: (Gecko.configuration().author === undefined || Gecko.configuration().author === null) ? "":Gecko.configuration().author
                                     font.family: "Nunito"
                                     padding: 4
                                     Layout.fillWidth: true
@@ -423,7 +434,7 @@ ApplicationWindow{
 
                                 TextField {
                                     id: gitpath
-                                    text: qsTr(Gecko.configuration().git)
+                                    text: (Gecko.configuration().git === undefined || Gecko.configuration().git === null) ? "":Gecko.configuration().git
                                     font.family: "Nunito"
                                     padding: 4
                                     Layout.fillWidth: true
@@ -441,7 +452,7 @@ ApplicationWindow{
 
                                 TextField {
                                     id: rootfolder
-                                    text: qsTr(Gecko.configuration().root)
+                                    text: (Gecko.configuration().root === undefined || Gecko.configuration().root === null) ? "":Gecko.configuration().root
                                     font.family: "Nunito"
                                     padding: 4
                                     Layout.fillWidth: true
@@ -480,8 +491,130 @@ ApplicationWindow{
                 }
             }
         }
-    }
 
+		// configuration page
+		Page {
+			id: forceconfigpage
+			Layout.fillHeight: true
+            Layout.fillWidth: true
+            enabled: (main.currentIndex == 2)
+
+            Rectangle {
+                id: body_
+                color: Gecko.theme.dark
+                anchors.topMargin: 49
+                anchors.fill: parent
+
+                ColumnLayout {
+                    x: 8
+                    y: 8
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.verticalCenter: parent.verticalCenter
+
+					TextField {
+						id: authorname_
+						font.family: "Nunito"
+						text: Gecko.defaults().username
+						padding: 4
+						Layout.fillWidth: true
+						Layout.preferredWidth: 294
+						background: Rectangle {
+							color: Gecko.theme.black
+							radius: 4
+						}
+						placeholderText: "Author's Name..."
+						bottomPadding: 8
+						Layout.preferredHeight: 50
+						font.pixelSize: 12
+						Material.foreground: Gecko.theme.white
+						ToolTip.text: "Enter your name here"
+						ToolTip.delay: 2000
+						ToolTip.timeout: 5000
+						ToolTip.visible: hovered
+					}
+
+					TextField {
+						id: gitpath_
+						font.family: "Nunito"
+						padding: 4
+						text: Gecko.defaults().git
+						Layout.fillWidth: true
+						Layout.preferredWidth: 294
+						background: Rectangle {
+							color: Gecko.theme.black
+							radius: 4
+						}
+						placeholderText: "Git.exe Path..."
+						bottomPadding: 8
+						Layout.preferredHeight: 50
+						font.pixelSize: 12
+						Material.foreground: Gecko.theme.white
+						ToolTip.text: "Enter path to your git.exe folder"
+						ToolTip.delay: 2000
+						ToolTip.timeout: 5000
+						ToolTip.visible: hovered
+					}
+
+					TextField {
+						id: rootfolder_
+						font.family: "Nunito"
+						padding: 4
+						Layout.fillWidth: true
+						Layout.preferredWidth: 294
+						background: Rectangle {
+							color: Gecko.theme.black
+							radius: 4
+						}
+						placeholderText: "Project root folder"
+						bottomPadding: 8
+						Layout.preferredHeight: 50
+						font.pixelSize: 12
+						Material.foreground: Gecko.theme.white
+						ToolTip.text: "Where do you want to save your projects"
+						ToolTip.delay: 2000
+						ToolTip.timeout: 5000
+						ToolTip.visible: hovered
+					}
+
+					Button {
+						id: savesettings_
+						text: qsTr("Save Configuration")
+						font.family: "Nunito"
+						font.capitalization: Font.Capitalize
+						Layout.fillWidth: true
+						Layout.preferredWidth: 294
+						Layout.fillHeight: false
+						Layout.preferredHeight: 48
+						font.pixelSize: 13
+						Material.foreground: Gecko.theme.white
+						Material.background: Gecko.theme.primary
+
+						onClicked: {
+							if (Gecko.forceconfigure(authorname_.text, gitpath_.text, rootfolder_.text, {rectobj:toastrect, textobj:toastmessage, timeobj:toasttimer})){
+								main.currentIndex = 1
+							}
+                        }
+                    }
+                }
+
+			    Label {
+			        id: label
+			        x: 253
+			        y: 83
+			        width: 294
+			        height: 45
+			        color: Gecko.theme.white
+			        text: qsTr("Configuration")
+			        font.pointSize: 14
+			        font.family: "Nunito"
+			        horizontalAlignment: Text.AlignHCenter
+			        verticalAlignment: Text.AlignVCenter
+			    }
+			}
+		}
+	}
+
+	// window manager bar... holding the close_app button
     WMBar{
         anchors.top: parent.top
         anchors.topMargin: 0
@@ -489,7 +622,7 @@ ApplicationWindow{
         anchors.rightMargin: 0
         anchors.left: parent.left
         anchors.leftMargin: 0
-        title: workstack.children[workstack.currentIndex].title
+        title: (main.currentIndex == 2) ? "" : workstack.children[workstack.currentIndex].title
         visible: (main.currentIndex != 0)
 
         onCloseClicked:{
@@ -497,6 +630,7 @@ ApplicationWindow{
         }
     }
 
+	// toast bar
     Rectangle {
         id: toastrect
         width: 300

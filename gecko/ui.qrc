@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/ui">
+        <file>qml/gecko.qml</file>
+        <file>qml/js/app.js</file>
+        <file>qml/res/logobig.png</file>
+        <file>qml/component/NavItem.qml</file>
+        <file>qml/component/TempItem.qml</file>
+        <file>qml/component/WMBar.qml</file>
+        <file>qml/component/WMIcon.qml</file>
+        <file>qml/component/res/autogecko.py.png</file>
+        <file>qml/component/res/cancel.png</file>
+    </qresource>
+</RCC>

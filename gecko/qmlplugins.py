@@ -10,6 +10,11 @@ class QmlGecko(QObject):
 	configurationChanged = Signal(str)	# updates a json string
 	templateAdded = Signal(str)	# updates a json string
 	gitStatusChanged = Signal(bool)
+	suddenConfiguration = Signal(bool)
+
+	@Property(bool, notify=suddenConfiguration)
+	def configured(self):
+		return utils.configured()
 
 	@Property(bool, notify=gitStatusChanged)
 	def git_installed(self):
@@ -22,14 +27,26 @@ class QmlGecko(QObject):
 
 	@Property(str, notify=templateAdded)
 	def templates(self):
-		templist = os.listdir(utils.TEMPLATE_DIR)
-		tempdata = []
-		for temp in templist:
-			if temp.endswith(".gecko"):
-				item = {"name":temp[:-6]}
-				with open(os.path.join(utils.TEMPLATE_DIR, temp)) as file: item["filesize"] = str(len(file.read())/1000)+" kb"
-				tempdata.append(item)
+		try:
+			templist = os.listdir(utils.TEMPLATE_DIR)
+			tempdata = []
+			for temp in templist:
+				if temp.endswith(".gecko"):
+					item = {"name":temp[:-6]}
+					with open(os.path.join(utils.TEMPLATE_DIR, temp)) as file: item["filesize"] = str(len(file.read())/1000)+" kb"
+					tempdata.append(item)
+		except FileNotFoundError as e:
+			os.mkdir(utils.TEMPLATE_DIR)
+			tempdata = []
 		return json.dumps(tempdata)
+
+	@Slot(result=str)
+	def defaults(self):
+		defaults = {
+			"username": os.environ["USERNAME"],
+			"git": utils.lookforgit()
+		}
+		return json.dumps(defaults)
 
 	@Slot(str, str, str, result=bool)
 	def configure(self, author, git, root):
@@ -38,6 +55,17 @@ class QmlGecko(QObject):
 		# validate
 		if os.access(git, os.F_OK) and os.access(root, os.F_OK):
 			utils.updateconfiguration(utils.toargs(**data))
+			self.configurationChanged.emit(json.dumps(data))
+			return True
+		return False
+
+	@Slot(str, str, str, result=bool)
+	def forceconfigure(self, author, git, root):
+		data = dict(author=author, git=git, root=root)
+
+		# validate
+		if os.access(git, os.F_OK) and os.access(root, os.F_OK):
+			utils.forceconfig(author=author, git=git, root=root)
 			self.configurationChanged.emit(json.dumps(data))
 			return True
 		return False

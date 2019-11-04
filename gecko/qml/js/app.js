@@ -109,3 +109,24 @@ const createproject = (dataobj, toastobj) => {
 		toast(toastobj, "Fill form completly", alertmode.WARNING);
 	}
 }
+
+const forceconfigure = (author, git, root, toastobj) => {
+	let res = false
+	if (author.length != 0 && git.length != 0 && root.length != 0){
+		let response = QGecko.forceconfigure(author, git, root);
+		if (!response){
+			toast(toastobj, "Could not configure Gecko! Invalid Inputs", alertmode.ERROR);
+		}else{
+			toast(toastobj, "Gecko configured!", alertmode.SUCCESS);
+			res = true
+		}
+	}else {
+		toast(toastobj, "Please fill empty forms.", alertmode.WARNING);
+	}
+	return res
+}
+
+const defaults = () => {
+	let def = JSON.parse(QGecko.defaults());
+	return def
+}

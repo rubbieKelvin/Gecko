@@ -229,7 +229,30 @@ def updateconfiguration(args):
 	config.update(args.tree)
 	with open(CONFIG, "w") as file: yaml.dump(config, file)
 
+def forceconfig(**kwargs):
+	data = dict(author="", git="0", root="\\")
+	data.update(kwargs)
+	if not os.access(CONFIG, os.F_OK):
+		with open(CONFIG, "w") as file:
+			pass
+	with open(CONFIG, "w") as file:
+		yaml.dump(data, file)
+
+
 def configuration():
-	with open(CONFIG) as file:
-		res = yaml.load(file, Loader=yaml.FullLoader)
+	if os.access(CONFIG, os.F_OK):
+		with open(CONFIG) as file:
+			res = yaml.load(file, Loader=yaml.FullLoader)
+	else:
+		return {}
 	return res
+
+def configured():
+	if os.access(CONFIG, os.F_OK):
+		try:
+			with open(CONFIG) as file:
+				res = yaml.load(file, Loader=yaml.FullLoader)
+			return bool(res)
+		except Exception as e:
+			print("error checking configuration\n")
+			raise e

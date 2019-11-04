@@ -4,3 +4,4 @@ geckoconfig.yml
 __pycache__
 build/
 dist/
+test.py
