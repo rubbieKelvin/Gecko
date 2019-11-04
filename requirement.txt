@@ -1,11 +1,2 @@
-bottle==0.12.17
-bottle-websocket==0.2.9
-cffi==1.13.1
-Eel==0.11.0
-future==0.18.1
-gevent==1.4.0
-gevent-websocket==0.10.1
-greenlet==0.4.15
-pycparser==2.19
-PyYAML==5.1.2
-whichcraft==0.6.1
+Eel
+PySide2
