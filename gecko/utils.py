@@ -11,7 +11,7 @@ from PySide2.QtQml import QQmlApplicationEngine, qmlRegisterType
 from . import CONFIG
 from . import ROOT
 
-TEMPLATE_DIR = os.path.join(ROOT, "templates")
+TEMPLATE_DIR = "templates"
 EXTENSION = ".gecko"
 
 def newfile(root, name, content=""):
@@ -127,6 +127,7 @@ def showgui(args, defaults={}):
 	# eel.init("gecko\\web")
 	# eel.start("index.html")
 	from .qmlplugins import QmlGecko
+	from . import ui
 
 	appname = "autoGecko"
 	QGecko = QmlGecko()
@@ -141,7 +142,7 @@ def showgui(args, defaults={}):
 	# create qml app engine
 	engine = QQmlApplicationEngine()
 	engine.rootContext().setContextProperty("QGecko", QGecko)
-	engine.load(os.path.join(ROOT, "qml", "gecko.qml"))
+	engine.load("qrc:/ui/qml/gecko.qml")
 	engine.quit.connect(app.quit)
 
 	# exit program
